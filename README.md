@@ -54,4 +54,34 @@ passwd =  123456789
 serverid =  16448
 ```
 
- 
+```python
+[mysql]
+host = #host name ยกตัวอย่าง localhost
+user = # ชื่อที่ใช้เข้างาน ยกตัวอย่าง root
+passwd =  # พาสเวิรดที่เข้าใช้งาน ยกตัวอย่าง 12345678
+database_name = # ชื่อของ database 
+table_name = 	#ชื่อ table ที่เก็บ username กับ point ไว้
+columns_name = # ชื่อ columns ที่เก็บ username
+columns_point = # ชื่อ columns ที่เก็บ point ไว้
+```
+***ตัวอย่าง [mysql]***
+```css
+[mysql]
+host = localhost
+user = root
+passwd =  12345678
+database_name = GKXserver
+table_name = 	GKXuser
+columns_name = username
+columns_point = point
+```
+```python
+[votex2] #จะกำหนดว่าวันไหนต้องการให้แต้ม* ในนี้ยกตัวอย่างวันพุทธ ได้แต้ม *2
+Monday = 1
+Tuesday = 1
+Wednesday = 2
+Thursday = 1
+Friday = 1
+Saturday = 1
+Sunday = 1
+``` 
