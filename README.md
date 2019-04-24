@@ -10,7 +10,7 @@
 
 <p align="center"><img src="https://user-images.githubusercontent.com/47280575/56681389-7656d900-66f3-11e9-9522-596e6f377442.gif" alt="sample"></p>
 
-<p align="center"><em>The example above was created with Slate. Check it out at <a href="https://www.youtube.com/watch?v=lrXmNNkPIMo">Playserver นับคะแนนเข้าเซิฟ Auto</a>.</em></p>
+<p align="center"><em>The example above was created with GKX. Check it out at <a href="https://www.youtube.com/watch?v=lrXmNNkPIMo">Playserver นับคะแนนเข้าเซิฟ Auto</a>.</em></p>
 
 Features
 ------------
