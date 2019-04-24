@@ -21,3 +21,37 @@ Features
 
 
 ------------------------------
+
+การเริ่มต้นกับ GKX นั้นง่ายมาก! เพียงแค่ทำตามคำแนะนำด้านล่าง
+
+Getting Started with GKX
+------------------------------
+
+### ข้อกำหนดเบื้องต้น
+
+ตรวจสอบคุณสมบัติของคุณ:
+
+ - **Linux or Windows** — macOS  อาจใช้งานได้ แต่ไม่รองรับ 
+ - **สำหรับ Linux หรือ VPS** — จะต้องมี `Python3.5+` และต้องติดตั่ง `package`ให้ครบ แนะนำติดต่อ :octocat: <a href="https://discord.gg/Mgu73TN">support</a>
+  - **Server ต้องไม่มีการเชื่อมระบบกับ Duckdig**
+  
+### เริ่มต้น/การตั้งค่า
+1. Fork หรือ <a href="https://github.com/syntaxp/GKX/archive/master.zip">Dowloads</a> this repository on GitHub.
+2. แตกไฟล์ในส่วนของ GKX-master.zip ให้เรียบร้อยจากนั้นเข้าไปที่ `GKX-master\control` จะพบไฟล์ `config.txt` ให้เปิดขึ้นมา
+
+2.1. ในส่วนนี้จะแบ่งการตั่งค่าออกเป็น สามส่วน default, mysql, votex2 การเซ็ต config เราจะเซ็ตหลังเครื่องหมาย เท่ากับ(=)
+```python
+[default]
+user = # email หรือ user ที่ใช้ในการสร้างกระทู้โหวตใน Playserver
+passwd =  # password ที่ใช้ในการสร้างกระทู้โหวตใน Playserver
+serverid =  # ไอดีของเซิฟเวอร์ตัวอย่างเช่น  url คือ " https://playserver.in.th/index.php/Server/Testver-16448 " ไอดีจะอยู่ข้างหลังซึ่งก็คือ 16448
+```
+***ตัวอย่าง [default]***
+```css
+[default]
+user = gkx@gmaio.com
+passwd =  123456789
+serverid =  16448
+```
+
+ 
