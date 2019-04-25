@@ -73,6 +73,7 @@ table_name = 	#ชื่อ table ที่เก็บ username กับ point
 columns_name = # ชื่อ columns ที่เก็บ username
 columns_point = # ชื่อ columns ที่เก็บ point ไว้
 ```
+![xxxx](https://user-images.githubusercontent.com/47280575/56731029-acdc3480-6783-11e9-8a66-a4459700e5f4.jpg)
 
 ![ppr](https://user-images.githubusercontent.com/47280575/56730504-5e7a6600-6782-11e9-9e2d-d0a42260ba42.jpg)
 
