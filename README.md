@@ -41,61 +41,32 @@ Getting Started with GKX
 
 2.1. ในส่วนนี้จะแบ่งการตั่งค่าออกเป็น สามส่วน default, mysql, votex2 การเซ็ต config เราจะเซ็ตหลังเครื่องหมาย เท่ากับ(=)
 
-***ตัวอย่าง [default]***
-
 ```python
+
 [default]
-user = # email หรือ user ที่ใช้ในการสร้างกระทู้โหวตใน Playserver
-passwd =  # password ที่ใช้ในการสร้างกระทู้โหวตใน Playserver
-serverid =  # ไอดีของเซิฟเวอร์ตัวอย่างเช่น  url คือ " https://playserver.in.th/index.php/Server/Testver-16448 " ไอดีจะอยู่ข้างหลังซึ่งก็คือ 16448
-```
-![ex](https://user-images.githubusercontent.com/47280575/56730838-19a2ff00-6783-11e9-89c7-15256314a1af.png)
+user_psv = # email หรือ user ที่ใช้ในการสร้างกระทู้โหวตใน Playserver
+passwd_psv =  # password ที่ใช้ในการสร้างกระทู้โหวตใน Playserver
+server_psv =  # ไอดีของเซิฟเวอร์ตัวอย่างเช่น  url คือ " https://playserver.in.th/index.php/Server/Testver-16448 " ไอดีจะอยู่ข้างหลังซึ่งก็คือ 16448
+delay = 0 #ดีเลการดึงข้อมูล
 
-![ss](https://user-images.githubusercontent.com/47280575/56730831-17d93b80-6783-11e9-8f8e-36ab9b56b009.jpg)
-
-```css
-[default]
-user = gkx@gmaio.com
-passwd =  123456789
-serverid =  16448
-```
-
-***ตัวอย่าง [mysql]***
-
-
-```python
 [mysql]
-host = #host name ยกตัวอย่าง localhost
-user = # ชื่อที่ใช้เข้างาน ยกตัวอย่าง root
-passwd =  # พาสเวิรดที่เข้าใช้งาน ยกตัวอย่าง 12345678
-database_name = # ชื่อของ database 
-table_name = 	#ชื่อ table ที่เก็บ username กับ point ไว้
-columns_name = # ชื่อ columns ที่เก็บ username
-columns_point = # ชื่อ columns ที่เก็บ point ไว้
-```
-![xxxx](https://user-images.githubusercontent.com/47280575/56731029-acdc3480-6783-11e9-8a66-a4459700e5f4.jpg)
+host = #host ของ server
+user_sql = #user ที่ใช้ login 
+passwd_sql = #password 
+database_name = #name database ชื่อของ database
 
-![ppr](https://user-images.githubusercontent.com/47280575/56730504-5e7a6600-6782-11e9-9e2d-d0a42260ba42.jpg)
+table_login = login  #ค่านี้มสามารถใช้ได้เลยหากเซิฟเวอร์ไม่ได้ปรับแต่ง database ของเกม
+game_acc_fld = account_id
+game_user_fld = userid
 
-```css
-[mysql]
-host = localhost
-user = root
-passwd =  12345678
-database_name = playserver_user
-table_name = 	playserver_userid
-columns_name = username
-columns_point = point
-```
 
-***ตัวอย่าง [votex2]***
-```python
-[votex2] #จะกำหนดว่าวันไหนต้องการให้แต้ม* ในนี้ยกตัวอย่างวันพุทธ ได้แต้ม *2
+[votex2] #ตั่งค่าวันที่ต้องการให้มีการโหวต *
 Monday = 1
 Tuesday = 1
 Wednesday = 2
 Thursday = 1
 Friday = 1
-Saturday = 1
+Saturday = 2
 Sunday = 1
-``` 
+```
+
