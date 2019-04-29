@@ -155,6 +155,7 @@ class startdraw:
                 print(nowdeata+Fore.RED+' : $GKX - max_connections please chang your connections ;'+Style.RESET_ALL,flush=True)
 
         def wdatabase(self,username,point):
+            rowpoint = 0
             try:
                 dx = time.strftime('%Y-%m-%d %H:%M:%S')
                 cdb = connect_sql(self)
@@ -171,7 +172,8 @@ class startdraw:
                             sql = ("DELETE FROM gkx_wait WHERE userid = '{0}'")
                             mycursor.execute(sql.format(username))
                             cdb.commit()
-                    mycursor.execute(("SELECT point FROM gkx WHERE account_id = '{0}'").format(accid[0]))
+                            rowpoint += 1
+                    mycursor.execute(("SELECT point FROM gkx WHERE account_id = '{0}'").format(str(accid[0])))
                     getoldpoint = mycursor.fetchall()
                     for x in getoldpoint:
                         ssvote = (point*get_today(1))
@@ -184,7 +186,10 @@ class startdraw:
                         return 0
                     updateacc = "INSERT INTO gkx (account_id, point) VALUES (%s, %s)"
                     ssvote = (point*get_today(1))
-                    newpoint = (int(ssvote)+int(old_point))
+                    if rowpoint == 1:
+                        newpoint = (int(ssvote)+int(old_point))
+                    else:
+                        newpoint = ssvote
                     vals = (accid[0], newpoint)
                     mycursor.execute(updateacc, vals)
                     cdb.commit()
