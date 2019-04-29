@@ -1,20 +1,25 @@
 [default]
-user = 
-passwd = 
-serverid = 
+user_psv = #email ของ playserver
+passwd_psv = #password ของ playserver
+server_psv = #id ของ server
+delay = 0
+
 [mysql]
-host = 
-user = 
-passwd =  
-database_name = 
-table_name = 	
-columns_name = 
-columns_point = 
+host = #host
+user_sql = #user
+passwd_sql = #password
+database_name = #name database
+
+table_login = login
+game_acc_fld = account_id
+game_user_fld = userid
+
+
 [votex2]
-Monday = 1
+Monday = 10
 Tuesday = 1
-Wednesday = 1
+Wednesday = 2
 Thursday = 1
 Friday = 1
-Saturday = 1
+Saturday = 2
 Sunday = 1
