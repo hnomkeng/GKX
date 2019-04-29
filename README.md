@@ -10,7 +10,7 @@
 
 <p align="center"><img src="https://user-images.githubusercontent.com/47280575/56681389-7656d900-66f3-11e9-9522-596e6f377442.gif" alt="sample"></p>
 
-<p align="center"><em>The example above was created with GKX. Check it out at <a href="https://www.youtube.com/watch?v=fKY7D_oBW1A&t">Playserver นับคะแนนเข้าเซิฟ Auto</a>.</em></p>
+<p align="center"><em>The example above was created with GKX. Check it out at 👉  <a href="https://www.youtube.com/watch?v=fKY7D_oBW1A&t">Playserver นับคะแนนเข้าเซิฟ Auto</a>.</em></p>
 
 Features
 ------------
@@ -35,7 +35,7 @@ Getting Started with GKX
  - **สำหรับ Linux หรือ VPS** — จะต้องมี `Python3.5+` และต้องติดตั่ง `package`ให้ครบ แนะนำติดต่อ :octocat: <a href="https://discord.gg/Mgu73TN">support</a>
   - **Server ต้องไม่มีการเชื่อมระบบกับ Duckdig**
   
-### เริ่มต้น/การตั้งค่า
+### เริ่มต้น/การตั้งค่า 
 1. Fork หรือ <a href="https://github.com/syntaxp/GKX/archive/master.zip">Dowloads</a> this repository on GitHub.
 2. แตกไฟล์ในส่วนของ GKX-master.zip ให้เรียบร้อยจากนั้นเข้าไปที่ `GKX-master\control` จะพบไฟล์ `config.txt` ให้เปิดขึ้นมา
 
