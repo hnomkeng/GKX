@@ -70,3 +70,15 @@ Saturday = 2
 Sunday = 1
 ```
 
+### สหรับ SERVER ที่มีสคิป NPC ของ Duckdig อยู่แล้ว
+
+แก้ 2 บรรทัดนี้ 
+```jva
+query_sql "UPDATE `duckdig` SET `point`= '0' WHERE `account_id` = " + .@accid + " LIMIT 1";
+query_sql "SELECT `point` FROM `duckdig` WHERE `account_id` = " + .@accid + " LIMIT 1", .@point;
+```
+เป็น
+```jva
+query_sql "UPDATE `gkx` SET `point`= '0' WHERE `account_id` = " + .@accid + " LIMIT 1";
+query_sql "SELECT `point` FROM `gkx` WHERE `account_id` = " + .@accid + " LIMIT 1", .@point;
+```
