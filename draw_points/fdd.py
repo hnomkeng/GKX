@@ -3,6 +3,8 @@ import configparser,sys,os,requests,base64,threading,time,ctypes,re,calendar,mys
 from colorama import init, Fore, Back, Style
 from bs4 import BeautifulSoup
 from datetime import date
+import gc
+
 
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
@@ -117,6 +119,7 @@ class startdraw:
         def drawPlaypoints(self):
             frist = 0
             while True:
+                gc.collect()
                 nowdeata = time.strftime('%Y-%m-%d %H:%M:%S')
                 try:
                     day = get_today(0)
