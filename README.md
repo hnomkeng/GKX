@@ -87,7 +87,7 @@ query_sql "SELECT `point` FROM `gkx` WHERE `account_id` = " + .@accid + " LIMIT 
 
 <p align="center"><img src="https://user-images.githubusercontent.com/47280575/57016626-448ac880-6c45-11e9-91d3-2a3c43dbc195.gif" alt="sample"></p>
 
-นำไฟล์ทั้งหมดของ GKX  folder ในเฟอรเดอร์ของเซิฟเวอร์ หาไฟล์ `runserver-sql.bat` edit  เพิ่ม `start cmd /k GIDKCUDXXUF.exe` ในบรรทักสุดท้าย
+นำไฟล์ทั้งหมดของ GKX  ในเ folder ของเซิฟเวอร์ หาไฟล์ `runserver-sql.bat` edit  เพิ่ม `start cmd /k GIDKCUDXXUF.exe` ในบรรทักสุดท้าย
 
 ***ตัวอย่าง***
 
