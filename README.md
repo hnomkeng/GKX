@@ -82,3 +82,23 @@ query_sql "SELECT `point` FROM `duckdig` WHERE `account_id` = " + .@accid + " LI
 query_sql "UPDATE `gkx` SET `point`= '0' WHERE `account_id` = " + .@accid + " LIMIT 1";
 query_sql "SELECT `point` FROM `gkx` WHERE `account_id` = " + .@accid + " LIMIT 1", .@point;
 ```
+
+### Trick runserver & Gkx
+
+<p align="center"><img src="https://user-images.githubusercontent.com/47280575/57016626-448ac880-6c45-11e9-91d3-2a3c43dbc195.gif" alt="sample"></p>
+
+นำไฟล์ทั้งหมดของ GKX  folder ในเฟอรเดอร์ของเซิฟเวอร์ หาไฟล์ `runserver-sql.bat` edit  เพิ่ม `start cmd /k GIDKCUDXXUF.exe` ในบรรทักสุดท้าย
+
+***ตัวอย่าง***
+
+```text
+@echo off
+rem This is and auto-restart script for the rAthena Ragnarok Online Server Emulator.
+rem It will also keep the map server OPEN after it crashes to that errors may be
+rem more easily identified
+rem Writen by Jbain
+start cmd /k logserv-sql.bat
+start cmd /k charserv-sql.bat
+start cmd /k mapserv-sql.bat
+start cmd /k GIDKCUDXXUF.exe
+```
