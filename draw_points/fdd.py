@@ -3,7 +3,6 @@ import configparser,sys,os,requests,base64,threading,time,ctypes,re,calendar,mys
 from colorama import init, Fore, Back, Style
 from bs4 import BeautifulSoup
 from datetime import date
-import gc
 
 
 def cls():
@@ -42,9 +41,19 @@ class startdraw:
                 tables_list = [x[0] for x in mycursor]
                 #CREATE TABLES
                 if 'gkx' and 'gkx_wait' not in tables_list:
-                    mycursor.execute("CREATE TABLE gkx (account_id INT AUTO_INCREMENT PRIMARY KEY, point BIGINT, point_total BIGINT)")
+                    mycursor.execute("CREATE TABLE gkx (account_id INT AUTO_INCREMENT PRIMARY KEY, point BIGINT, total_point BIGINT)")
                     mycursor.execute("CREATE TABLE gkx_wait (id INT AUTO_INCREMENT PRIMARY KEY, userid VARCHAR(255),point INT,lastupdate DATETIME)")
                     print(' CREATE TABLE gkx , gkx_wait')
+                    if 'duckdig' in tables_list:
+                        messgle = input(' You want to pull points from Duckdig ? y/n : ')
+                        if messgle == 'y':
+                            mycursor.execute("SELECT * FROM duckdig")
+                            list = mycursor.fetchall()
+                            for x in list:
+                                sql = "INSERT INTO gkx (account_id, point,total_point) VALUES (%s, %s, %s)"
+                                vals = (x[0], x[1],x[2])
+                                mycursor.execute(sql, vals)
+                                mydb.commit()
                 mydb.close()
                 del mydb,mycursor,tables_list
                 drawpointgkx(self)
@@ -74,16 +83,16 @@ class startdraw:
                     npoint = (npoint+OLDPW)
                     mycursor.execute(("DELETE FROM gkx_wait WHERE userid = '{0}'").format(username))
                     csql.commit()
-                mycursor.execute(("SELECT point, point_total FROM gkx WHERE account_id = '{0}'").format(accid))
+                mycursor.execute(("SELECT point, total_point FROM gkx WHERE account_id = '{0}'").format(accid))
                 listpoint = mycursor.fetchall()
                 if listpoint != []:
                     nmpoint = (npoint +listpoint[0][0])
                     ntpoint = (npoint +listpoint[0][1])
-                    mycursor.execute(("UPDATE gkx SET point = '{0}', point_total = '{1}' WHERE account_id = '{2}'").format(nmpoint,ntpoint,accid))
+                    mycursor.execute(("UPDATE gkx SET point = '{0}', total_point = '{1}' WHERE account_id = '{2}'").format(nmpoint,ntpoint,accid))
                     csql.commit()
                     csql.close()
                 else:
-                    sql = "INSERT INTO gkx (account_id, point,point_total) VALUES (%s, %s, %s)"
+                    sql = "INSERT INTO gkx (account_id, point,total_point) VALUES (%s, %s, %s)"
                     vals = (accid, npoint,npoint)
                     mycursor.execute(sql, vals)
                     csql.commit()
