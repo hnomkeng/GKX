@@ -37,6 +37,7 @@ class startdraw:
 
 
         def Create_TableGKX(self):
+            try:
                 mydb = connect_sql(self)
                 mycursor = mydb.cursor()
                 mycursor.execute("SHOW TABLES")
@@ -59,6 +60,9 @@ class startdraw:
                 mydb.close()
                 del mydb,mycursor,tables_list
                 drawpointgkx(self)
+            except:
+                print("Can't connect to MySQL server  check your config  -- "+self.host)
+                time.sleep(10)
 
 
         def drawpointgkx(self):
