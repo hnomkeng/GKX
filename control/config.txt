@@ -1,8 +1,8 @@
 [default]
-key = #key สำหรับ anticapcha
-user_psv = #email ของ playserver
-passwd_psv = #password ของ playserver
-server_psv = #id ของ server
+key = #key  anticapcha
+user_psv = #email  playserver
+passwd_psv = #password  playserver
+server_psv = #id  server
 delay = 0
 
 [mysql]
