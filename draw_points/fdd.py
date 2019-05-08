@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-import configparser,sys,os,requests,base64,threading,time,ctypes,re,calendar,mysql.connector
+import configparser,sys,os,requests,threading,time,ctypes,calendar,mysql.connector
 from colorama import init, Fore, Back, Style
 from bs4 import BeautifulSoup
 from datetime import date
+from selenium import webdriver
 
 
 def cls():
@@ -19,6 +20,7 @@ class startdraw:
         def run(self):
             loadconfig = configparser.RawConfigParser()
             loadconfig.readfp(open(r"control/config.txt"))
+            self.key = loadconfig.get("default", "key")
             self.user_psv = loadconfig.get("default", "user_psv")
             self.passwd_psv = loadconfig.get("default", "passwd_psv")
             self.server_psv = loadconfig.get("default", "server_psv")
@@ -118,7 +120,7 @@ class startdraw:
                 url = ("https://playserver.in.th:443/index.php/MyServerCheckPoint/index/"+self.server_psv)
                 cokkie = {"ci_session": self.cokkie}
                 header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "Referer": url, "Content-Type": "application/x-www-form-urlencoded", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
-                checkpoit = requests.post(url, headers=header, cookies=cokkie)
+                checkpoit = requests.post(url, headers=header, cookies=self.cokkie)
                 soup = BeautifulSoup(checkpoit.text,"html.parser")
                 div = soup.find_all("div")[19]
                 userpoit = div.find_all("button",class_='btn-servercheckpoint-editpoint button')
@@ -152,25 +154,73 @@ class startdraw:
                 try:
                     selfurl = ("https://playserver.in.th/index.php/MyServerCheckPoint/index/"+self.server_psv)
                     url = "https://playserver.in.th:443/index.php/MyServerCheckPoint/reset_point"
-                    cokkie = {"ci_session": self.cokkie}
                     header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "Referer": selfurl, "Content-Type": "application/x-www-form-urlencoded", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
                     data={"server_id": self.server_psv}
-                    requests.post(url, headers=header, cookies=cokkie, data=data)
+                    requests.post(url, headers=header, cookies=self.cokkie, data=data)
                     return 0
                 except:
                     self.cokkie = getcookie(self)
 
+                    #import requests
+
+                    #burp0_url = "https://playserver.in.th:443/index.php/MyServerCheckPoint/index/16448"
+                    #burp0_cookies = {"ci_session": "6dslj6f5t002ss0p41q6sggca1hl2748", "__utma": "21391738.1036514921.1557339590.1557339590.1557339590.1", "__utmb": "21391738.6.10.1557339590", "__utmc": "21391738", "__utmz": "21391738.1557339590.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided)", "__utmt": "1"}
+                    #burp0_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "th,en-US;q=0.7,en;q=0.3", "Accept-Encoding": "gzip, deflate", "Referer": "https://playserver.in.th/index.php/MyServerStatus/index/16448", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
+                    #requests.get(burp0_url, headers=burp0_headers, cookies=burp0_cookies)
+
+
+
 
         def getcookie(self):
+            options = webdriver.ChromeOptions()
+            options.add_argument("headless")
+            driver = webdriver.Chrome("drivers/chromedriver.exe",chrome_options=options)
+            driver.get("https://playserver.in.th/index.php/Login")
             try:
-                url = "https://playserver.in.th:443/index.php/Login/login"
-                header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "Referer": "https://playserver.in.th/index.php/Login/logout", "Content-Type": "application/x-www-form-urlencoded", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
-                data={"email": self.user_psv, "password": self.passwd_psv}
-                getcookie = requests.post(url, headers=header, data=data)
-                ss_cookie,newcookie = getcookie.request.headers['Cookie'].split('=')
-                return newcookie
+                ib64 = driver.find_element_by_xpath("""//*[@id="loginform"]/div[3]/div[2]/img""").screenshot_as_base64
+                print(" this pange use getcapcha ")
+                while True:
+                    captext = diffcap(self.key,ib64)
+                    print(" succes --> capcha ;  "+captext["text"])
+                    if captext["status"] == True:
+                        driver.find_element_by_xpath("""//*[@id="code"]""").send_keys(captext["text"])
+                        driver.find_element_by_xpath("""//*[@id="email"]""").clear()
+                        driver.find_element_by_xpath("""//*[@id="password"]""").clear()
+                        driver.find_element_by_xpath("""//*[@id="email"]""").send_keys(self.user_psv)
+                        driver.find_element_by_xpath("""//*[@id="password"]""").send_keys(self.passwd_psv)
+                        driver.find_element_by_xpath("""//*[@id="btnLogin"]""").click()
+                        try:
+                            driver.find_element_by_xpath("""/html/body/div[2]/div/div[1]/div/div[2]/div/div/ul[1]/li[1]/a""")
+                            ncookie = {"ci_session": driver.get_cookie("ci_session")["value"], "__utma": driver.get_cookie("__utma")["value"], "__utmb": driver.get_cookie("__utmb")["value"], "__utmc": driver.get_cookie("__utmc")["value"], "__utmz": driver.get_cookie("__utmz")["value"], "__utmt": driver.get_cookie("__utmt")["value"]}
+                            driver.close()
+                            return ncookie
+                        except:
+                            ib64 = driver.find_element_by_xpath("""//*[@id="loginform"]/div[3]/div[2]/img""").screenshot_as_base64
+                    elif captext["status"] == False:
+                         reportIncorrectImageCaptcha(self.key,captext["taskId"])               
             except:
-                print('\n Please check user / password  -- > control/config.txt')
+                try:
+                    driver.find_element_by_xpath("""//*[@id="email"]""").clear()
+                    driver.find_element_by_xpath("""//*[@id="password"]""").clear()
+                    driver.find_element_by_xpath("""//*[@id="email"]""").send_keys(self.user_psv)
+                    driver.find_element_by_xpath("""//*[@id="password"]""").send_keys(self.passwd_psv)
+                    driver.find_element_by_xpath("""//*[@id="btnLogin"]""").click()
+                    ncookie = {"ci_session": driver.get_cookie("ci_session")["value"], "__utma": driver.get_cookie("__utma")["value"], "__utmb": driver.get_cookie("__utmb")["value"], "__utmc": driver.get_cookie("__utmc")["value"], "__utmz": driver.get_cookie("__utmz")["value"], "__utmt": driver.get_cookie("__utmt")["value"]}
+                    driver.close()
+                    return ncookie
+                except:
+                    try:
+                        ncookie = {"ci_session": driver.get_cookie("ci_session")["value"], "__utma": driver.get_cookie("__utma")["value"], "__utmb": driver.get_cookie("__utmb")["value"], "__utmc": driver.get_cookie("__utmc")["value"], "__utmz": driver.get_cookie("__utmz")["value"], "__utmt": driver.get_cookie("__utmt")["value"]}
+                        driver.close()
+                        return ncookie
+                    except:
+                        driver.close()
+                        print("Unstable internet . . .")
+                    
+
+
+            return 0
+
 
         def connect_sql(self):
             mydb = mysql.connector.connect(
@@ -180,6 +230,53 @@ class startdraw:
                 database= self.sqldatabase
             )
             return mydb
+            
+        def reportIncorrectImageCaptcha(key,taskid):
+            header = { "Accept": "application/json","Content-Type": "application/json"}
+            data = {
+            "clientKey":key,
+            "taskId": taskid
+             }
+            reprot = requests.post("https://api.anti-captcha.com/reportIncorrectImageCaptcha",timeout=500,headers=header,json=data).json()
+            return reprot
+
+        def diffcap(key,base64image):
+            try:
+                Taskdata = {
+                    "clientKey":key,
+                    "task":
+                    {
+                    "type":"ImageToTextTask",
+                    "body":base64image,
+                    "phrase":False,
+                    "case":False,
+                    "numeric":False,
+                    "math":0,
+                    "minLength":4,
+                    "maxLength":4,
+                    "comment":"This application has been report to anticapcha If your answer is wrong according to anticapcha policy from https://anti-captcha.com/clients/reports/refunds"
+                    },
+                    "softId":"904",
+                    "languagePool":"en"
+                    }
+                createTask  = requests.post("https://api.anti-captcha.com/createTask",timeout=100,json=Taskdata).json()
+                if createTask['errorId'] == 0:
+                    TaskID = {
+                           "clientKey":key,
+                           "taskId": createTask['taskId']
+                           }
+                    for timeout in range(60):
+                        captcha_id = requests.post("https://api.anti-captcha.com/getTaskResult",timeout=100, json = TaskID).json()
+                        if captcha_id['status'] != 'processing':
+                            captcha = {'status':True,'text':captcha_id['solution']['text'],'cost':captcha_id['cost'],'taskId':createTask['taskId']}
+                            return captcha
+                        else:
+                            time.sleep(5)
+                    else:
+                        captcha = {'status':False,'errorDescription':createTask['errorDescription']}
+                        return captcha
+            except:
+                return 0
 
 
         run(self)

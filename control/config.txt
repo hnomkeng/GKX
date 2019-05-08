@@ -1,7 +1,8 @@
 [default]
-user_psv = #email ‡∏Ç‡∏≠‡∏á playserver
-passwd_psv = #password ‡∏Ç‡∏≠‡∏á playserver
-server_psv = #id ‡∏Ç‡∏≠‡∏á server
+key = #key  ”À√—∫ anticapcha
+user_psv = #email ¢Õß playserver
+passwd_psv = #password ¢Õß playserver
+server_psv = #id ¢Õß server
 delay = 0
 
 [mysql]
