@@ -122,8 +122,9 @@ class startdraw:
         def get_point(self):
             try:
                 url = ("https://playserver.in.th:443/index.php/MyServerCheckPoint/index/"+self.server_psv)
-                header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "Referer": url, "Content-Type": "application/x-www-form-urlencoded", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
-                checkpoit = requests.post(url, headers=header, cookies=self.cokkie)
+                urlre = ("https://playserver.in.th/index.php/MyServerStatus/index/"+self.server_psv)
+                header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "Referer": urlre, "Content-Type": "application/x-www-form-urlencoded", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
+                checkpoit = requests.get(url, headers=header, cookies=self.cokkie)
                 soup = BeautifulSoup(checkpoit.text,"html.parser")
                 div = soup.find_all("div")[19]
                 userpoit = div.find_all("button",class_='btn-servercheckpoint-editpoint button')
@@ -161,13 +162,6 @@ class startdraw:
                     return 0
                 except:
                     self.cokkie = getcookie(self)
-
-                    #import requests
-
-                    #burp0_url = "https://playserver.in.th:443/index.php/MyServerCheckPoint/index/16448"
-                    #burp0_cookies = {"ci_session": "6dslj6f5t002ss0p41q6sggca1hl2748", "__utma": "21391738.1036514921.1557339590.1557339590.1557339590.1", "__utmb": "21391738.6.10.1557339590", "__utmc": "21391738", "__utmz": "21391738.1557339590.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided)", "__utmt": "1"}
-                    #burp0_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "th,en-US;q=0.7,en;q=0.3", "Accept-Encoding": "gzip, deflate", "Referer": "https://playserver.in.th/index.php/MyServerStatus/index/16448", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
-                    #requests.get(burp0_url, headers=burp0_headers, cookies=burp0_cookies)
 
 
 
