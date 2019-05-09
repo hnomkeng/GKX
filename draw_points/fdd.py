@@ -133,7 +133,6 @@ class startdraw:
                         point = i['data-point'].splitlines()
                         username = i['data-gameid'].splitlines()
                         wdatabase(self,str(username[0]),int(point[0]))
-                del userpoit
             except:
                 print(' An error occurred network,serverid ')
                 self.cokkie = getcookie(self)
