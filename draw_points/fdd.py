@@ -122,13 +122,11 @@ class startdraw:
         def get_point(self):
             try:
                 url = ("https://playserver.in.th:443/index.php/MyServerCheckPoint/index/"+self.server_psv)
-                cokkie = {"ci_session": self.cokkie}
                 header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "Referer": url, "Content-Type": "application/x-www-form-urlencoded", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
                 checkpoit = requests.post(url, headers=header, cookies=self.cokkie)
                 soup = BeautifulSoup(checkpoit.text,"html.parser")
                 div = soup.find_all("div")[19]
                 userpoit = div.find_all("button",class_='btn-servercheckpoint-editpoint button')
-                del div,soup,checkpoit,header,cokkie,url
                 if userpoit != []:
                     resetpoint(self)
                     for i in userpoit:
@@ -177,6 +175,8 @@ class startdraw:
 
         def getcookie(self):
             options = webdriver.ChromeOptions()
+            options.add_argument('--ignore-certificate-errors')
+            options.add_argument('--ignore-ssl-errors')
             options.add_argument("headless")
             driver = webdriver.Chrome("drivers/chromedriver.exe",chrome_options=options)
             driver.get("https://playserver.in.th/index.php/Login")
