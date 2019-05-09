@@ -4,6 +4,7 @@ from colorama import init, Fore, Back, Style
 from bs4 import BeautifulSoup
 from datetime import date
 from selenium import webdriver
+from lxml import html
 
 
 def cls():
@@ -58,7 +59,6 @@ class startdraw:
                                 mycursor.execute(sql, vals)
                                 mydb.commit()
                 mydb.close()
-                del mydb,mycursor,tables_list
                 drawpointgkx(self)
             except:
                 print("Can't connect to MySQL server  check your config  -- "+self.host)
@@ -118,22 +118,38 @@ class startdraw:
                     mycursor.execute(sql, vals)
                     csql.commit()
                     csql.close()
+        def antixcap(self):
+            urx = "https://playserver.in.th:443/index.php/Login/login"
+            headerx = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "th,en-US;q=0.7,en;q=0.3", "Accept-Encoding": "gzip, deflate", "Referer": "https://playserver.in.th/index.php/Login", "Content-Type": "application/x-www-form-urlencoded", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
+            datagkx={"email": self.user_psv, "password": self.passwd_psv}
+            checklogin = requests.post(urx, headers=headerx, cookies=self.cokkie, data=datagkx)
+            checkdiff = html.fromstring(checklogin.content)
+            xcheck = checkdiff.xpath('/html/body/div[2]/div/div[1]/div/div[2]/div/div/ul[4]/li/a/text()')
+            if xcheck != ['Logout']:
+                self.cookies = getcookie(self)
+                return 0
 
         def get_point(self):
             try:
                 url = ("https://playserver.in.th:443/index.php/MyServerCheckPoint/index/"+self.server_psv)
                 urlre = ("https://playserver.in.th/index.php/MyServerStatus/index/"+self.server_psv)
                 header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "Referer": urlre, "Content-Type": "application/x-www-form-urlencoded", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
-                checkpoit = requests.get(url, headers=header, cookies=self.cokkie)
-                soup = BeautifulSoup(checkpoit.text,"html.parser")
-                div = soup.find_all("div")[19]
-                userpoit = div.find_all("button",class_='btn-servercheckpoint-editpoint button')
-                if userpoit != []:
-                    resetpoint(self)
-                    for i in userpoit:
-                        point = i['data-point'].splitlines()
-                        username = i['data-gameid'].splitlines()
-                        wdatabase(self,str(username[0]),int(point[0]))
+                checkpoit = requests.get(url,timeout=5, headers=header, cookies=self.cokkie)
+                checkdiff = html.fromstring(checkpoit.content)
+                xcheck = checkdiff.xpath('/html/body/div[2]/div/div[2]/div/div[1]/div/div/h4/text()')
+                if xcheck == ['Login']:
+                    self.cokkie = getcookie(self)
+                    return 0
+                else:
+                    soup = BeautifulSoup(checkpoit.text,"html.parser")
+                    div = soup.find_all("div")[19]
+                    userpoit = div.find_all("button",class_='btn-servercheckpoint-editpoint button')
+                    if userpoit != []:
+                        resetpoint(self)
+                        for i in userpoit:
+                            point = i['data-point'].splitlines()
+                            username = i['data-gameid'].splitlines()
+                            wdatabase(self,str(username[0]),int(point[0]))
             except:
                 print(' An error occurred network,serverid ')
                 self.cokkie = getcookie(self)
@@ -145,10 +161,8 @@ class startdraw:
             loadconfig.readfp(open(r"control/config.txt"))
             ssvote = loadconfig.get("votex2", today)
             if yum == 1:
-                del loadconfig,today,my_date
                 return int(ssvote)
             else:
-                del ssvote,loadconfig,my_date
                 return today
 
         def resetpoint(self):
